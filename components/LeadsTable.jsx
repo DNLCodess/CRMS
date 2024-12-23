@@ -8,8 +8,14 @@ import {
   TableHead,
   TableCell,
 } from "@/components/ui/table";
-import { Chart, registerables } from "chart.js";
-import { Bar } from "react-chartjs-2";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 import {
   AiOutlineCheckCircle,
   AiOutlineWarning,
@@ -24,8 +30,6 @@ import {
 } from "react-icons/fa";
 import { AiOutlineEdit, AiOutlineCheck } from "react-icons/ai";
 
-Chart.register(...registerables);
-
 const Modal = ({ lead, onClose }) => {
   const [activeTab, setActiveTab] = useState("Engage");
 
@@ -36,17 +40,20 @@ const Modal = ({ lead, onClose }) => {
       role="dialog"
       aria-labelledby="modal-title"
     >
-      <div className="bg-gray-900 dark:bg-gray-800 p-6 rounded-lg shadow-xl w-full sm:w-3/4 lg:w-[65%] max-h-screen overflow-y-auto">
+      <div className="bg-gray-100 dark:bg-gray-900 p-6 rounded-lg shadow-xl w-full sm:w-3/4 lg:w-[65%] max-h-screen overflow-y-auto">
         {/* Header Section */}
-        <div className="flex justify-between items-center py-4 border-b border-gray-700 dark:border-gray-600">
+        <div className="flex justify-between items-center py-4 border-b border-gray-300 dark:border-gray-700">
           <div className="flex items-center">
             <FaEnvelope className="text-blue-500 text-2xl" aria-hidden="true" />
-            <h1 id="modal-title" className="ml-3 text-lg font-bold text-white">
+            <h1
+              id="modal-title"
+              className="ml-3 text-lg font-bold text-gray-900 dark:text-gray-200"
+            >
               Engage with {lead.name}
             </h1>
           </div>
           <button
-            className="text-gray-400 hover:text-gray-200 text-lg"
+            className="text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 text-lg"
             aria-label="Close modal"
             onClick={onClose}
           >
@@ -55,15 +62,17 @@ const Modal = ({ lead, onClose }) => {
         </div>
 
         {/* Lead Details */}
-        <div className="flex items-center mt-4 mb-6 bg-gray-800 dark:bg-gray-700 p-3 rounded-md">
+        <div className="flex items-center mt-4 mb-6 bg-gray-200 dark:bg-gray-800 p-3 rounded-md">
           <img
             src={lead.image}
             alt={`Profile of ${lead.name}`}
             className="w-12 h-12 rounded-full object-cover"
           />
           <div className="ml-4">
-            <h2 className="text-xl font-semibold text-white">{lead.name}</h2>
-            <p className="text-sm text-gray-400 flex items-center">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+              {lead.name}
+            </h2>
+            <p className="text-sm text-gray-600 dark:text-gray-400 flex items-center">
               <FaLinkedin className="text-blue-600 mr-2" />
               {lead.position}, {lead.company}
             </p>
@@ -71,32 +80,31 @@ const Modal = ({ lead, onClose }) => {
         </div>
 
         {/* Highlighted Message */}
-        <div className="bg-[#2d2d6a] dark:bg-[#2d2d6a] p-4 rounded-lg mb-4 flex">
-          <h2 className="flex items-center text-purple-200 font-medium">
+        <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg mb-4 flex justify-between items-center">
+          <h2 className="flex items-center text-gray-800 dark:text-gray-200 font-medium">
             <FaStar className="mr-2 text-yellow-500" />
             Jane may be interested in upgrading espresso machines for her
             in-store coffee shops.
           </h2>
-
           <div className="flex gap-3">
-            <button className="border border-slate-600 px-3 py-2 flex items-center bg-gray-700 text-white hover:bg-gray-600 dark:bg-gray-600 dark:hover:bg-gray-500">
-              <FaPencilAlt /> Edit
+            <button className="border border-gray-400 px-3 py-2 flex items-center bg-gray-300 text-gray-800 hover:bg-gray-200 dark:bg-gray-600 dark:text-white dark:hover:bg-gray-500">
+              <FaPencilAlt className="mr-1" /> Edit
             </button>
-            <button className="border border-slate-600 px-3 py-2 flex items-center bg-purple-600 text-white hover:bg-purple-500 dark:bg-purple-500 dark:hover:bg-purple-400">
-              <FaPlane /> Approve Message
+            <button className="border border-gray-400 px-3 py-2 flex items-center bg-purple-600 text-white hover:bg-purple-500 dark:bg-purple-500 dark:hover:bg-purple-400">
+              <FaPlane className="mr-1" /> Approve
             </button>
           </div>
         </div>
 
         {/* Tabs Section */}
-        <nav className="flex justify-start border-b border-gray-700 dark:border-gray-600 mb-4">
+        <nav className="flex justify-start border-b border-gray-300 dark:border-gray-700 mb-4">
           {["Engage", "Search", "Next Steps"].map((tab) => (
             <button
               key={tab}
-              className={`text-sm px-4 py-2 font-medium text-gray-400 dark:text-gray-300 ${
+              className={`text-sm px-4 py-2 font-medium text-gray-600 dark:text-gray-400 ${
                 activeTab === tab
-                  ? "text-indigo-400 border-b-2 border-indigo-400"
-                  : "hover:text-white dark:hover:text-white"
+                  ? "text-blue-500 border-b-2 border-blue-500"
+                  : "hover:text-gray-800 dark:hover:text-white"
               }`}
               onClick={() => setActiveTab(tab)}
             >
@@ -107,11 +115,11 @@ const Modal = ({ lead, onClose }) => {
 
         {/* Tab Content */}
         {activeTab === "Engage" && (
-          <div className="bg-[#1f1f3c] dark:bg-[#1f1f3c] flex flex-col gap-3 p-4 rounded-lg">
-            <h3 className="text-lg font-semibold text-blue-200 mb-4">
+          <div className="bg-gray-100 dark:bg-gray-800 flex flex-col gap-3 p-4 rounded-lg">
+            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
               Why I picked this lead
             </h3>
-            <ul className="list-disc pl-6 space-y-2 text-gray-400 dark:text-gray-300">
+            <ul className="list-disc pl-6 space-y-2 text-gray-600 dark:text-gray-400">
               <li>
                 Jane is a <strong>key decision maker</strong> and was browsing
                 "espresso machines" on First Coffee's website.
@@ -127,24 +135,22 @@ const Modal = ({ lead, onClose }) => {
             </ul>
           </div>
         )}
-
         {activeTab === "Search" && (
           <div>
-            <h3 className="text-lg font-semibold text-gray-200 dark:text-gray-100">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-200">
               Search Insights
             </h3>
-            <p className="text-sm text-gray-400 dark:text-gray-300">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
               Access recent searches and engagement history here.
             </p>
           </div>
         )}
-
         {activeTab === "Next Steps" && (
           <div>
-            <h3 className="text-lg font-semibold text-gray-200 dark:text-gray-100">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-200">
               Recommended Actions
             </h3>
-            <ul className="list-disc pl-6 space-y-2 text-gray-400 dark:text-gray-300">
+            <ul className="list-disc pl-6 space-y-2 text-gray-600 dark:text-gray-400">
               <li>Schedule a meeting with Jane.</li>
               <li>Prepare a tailored espresso machine proposal.</li>
               <li>Highlight customer success stories.</li>
@@ -154,10 +160,10 @@ const Modal = ({ lead, onClose }) => {
 
         {/* Footer Section */}
         <div className="mt-6">
-          <h3 className="text-lg font-semibold text-gray-200 dark:text-gray-100">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-200">
             About {lead.name}
           </h3>
-          <p className="text-sm text-gray-400 dark:text-gray-300">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
             {lead.name}, the {lead.position} of {lead.company}, is a dynamic
             leader with a proven track record in optimizing operations and
             enhancing customer experiences.
@@ -277,20 +283,86 @@ const LeadsTable = () => {
     lead.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const chartData = {
-    labels: [...new Set(data.map((item) => item.statusReason))],
-    datasets: [
+  const LeadsChart = ({ data }) => {
+    const chartData = [
       {
-        label: "Leads by Status",
-        data: [
-          data.filter((lead) => lead.statusReason === "NEW").length,
-          data.filter((lead) => lead.statusReason === "In Progress").length,
-          data.filter((lead) => lead.statusReason === "Completed").length,
-        ],
-        backgroundColor: ["#36a2eb", "#ffce56", "#4caf50"],
+        name: "New",
+        value: data.filter((lead) => lead.statusReason === "NEW").length,
       },
-    ],
+      {
+        name: "In Progress",
+        value: data.filter((lead) => lead.statusReason === "In Progress")
+          .length,
+      },
+      {
+        name: "Completed",
+        value: data.filter((lead) => lead.statusReason === "Completed").length,
+      },
+    ];
+
+    const COLORS = ["#36a2eb", "#ffce56", "#4caf50"];
+
+    return (
+      <div className="bg-gray-200 dark:bg-gray-800 p-6 rounded-lg shadow-md">
+        <h2 className="text-lg font-bold mb-4 text-gray-800 dark:text-gray-200">
+          Leads by Status
+        </h2>
+        <ResponsiveContainer width="100%" height={500}>
+          <PieChart>
+            <Pie
+              data={chartData}
+              dataKey="value"
+              nameKey="name"
+              cx="50%"
+              cy="50%"
+              outerRadius={200} // Increased radius for a larger chart
+              innerRadius={100} // Optional: Add an inner radius for a donut style
+              fill="#8884d8"
+              label={({ name, percent }) =>
+                `${name}: ${(percent * 100).toFixed(0)}%`
+              }
+            >
+              {chartData.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={COLORS[index]} />
+              ))}
+            </Pie>
+            <Tooltip
+              contentStyle={{
+                backgroundColor: "rgba(0, 0, 0, 0.7)",
+                color: "#fff",
+                border: "none",
+              }}
+            />
+            <Legend
+              layout="horizontal"
+              verticalAlign="bottom"
+              align="center"
+              wrapperStyle={{
+                color: "#fff",
+                fontSize: "12px",
+              }}
+            />
+          </PieChart>
+        </ResponsiveContainer>
+      </div>
+    );
   };
+
+  const chartData = [
+    {
+      status: "NEW",
+      count: data.filter((lead) => lead.statusReason === "NEW").length,
+    },
+    {
+      status: "In Progress",
+      count: data.filter((lead) => lead.statusReason === "In Progress").length,
+    },
+    {
+      status: "Completed",
+      count: data.filter((lead) => lead.statusReason === "Completed").length,
+    },
+  ];
+  const COLORS = ["#36a2eb", "#ffce56", "#4caf50"];
 
   const closeModal = () => setSelectedLead(null);
 
@@ -338,9 +410,7 @@ const LeadsTable = () => {
           </TableBody>
         </Table>
       ) : (
-        <div className="bg-white dark:bg-slate-900 p-4 rounded-md shadow-md">
-          <Bar data={chartData} options={{ responsive: true }} />
-        </div>
+        <LeadsChart data={data} />
       )}
 
       {selectedLead && <Modal lead={selectedLead} onClose={closeModal} />}

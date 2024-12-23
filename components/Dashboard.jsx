@@ -2,6 +2,106 @@ import React from "react";
 import Header from "./Header";
 import LeadsTable from "./LeadsTable";
 
+export const AgentSkill = ({ onClose }) => {
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 ">
+      <div className="dark:bg-gray-800 bg-slate-100 p-8 rounded-xl shadow-xl w-full max-w-3xl relative flex flex-col gap-4">
+        {/* Title */}
+        <h2 className="text-2xl font-bold dark:text-white mb text-gray-900-6">
+          Agent Skill
+        </h2>
+        <div className="flex flex-col gap-4 shadow-lg ">
+          <div>
+            <p className="text-sm dark:text-gray-300 text-gray-900 mb-4">
+              Check if on-hand inventory will allow all sales orders to ship
+              without delay.
+            </p>
+          </div>
+
+          <div>
+            {" "}
+            <p className="text-sm dark:text-gray-300 text-gray-900 leading-[3] tracking-widest">
+              When
+              <span className="bg-blue-100 text-blue-500  px-2 py-1 rounded-md mx-1">
+                any vendor
+              </span>
+              sends an email with changes to
+              <span className="bg-blue-100 text-blue-500 px-2 py-1 rounded-md mx-1">
+                confirmed purchase orders
+              </span>
+              , check if the resulting
+              <span className="bg-blue-100 text-blue-500 px-2 py-1 rounded-md mx-1">
+                on-hand inventory
+              </span>
+              will allow
+              <span className="bg-blue-100 text-blue-500 px-2 py-1 rounded-md mx-1">
+                all sales orders
+              </span>
+              to
+              <span className="bg-blue-100 text-blue-500 px-2 py-1 rounded-md mx-1">
+                ship without delay
+              </span>
+              . If so,
+              <span>update the purchase order.</span>
+              to reflect the change
+            </p>
+          </div>
+        </div>
+        {/* Description */}
+
+        <div className="w-full mx-auto bg-white dark:bg-gray-900 shadow-lg rounded-md max-w-3xl p-3">
+          <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
+            Enable email access
+          </h2>
+          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+            Allow the agent to access email inboxes to read mail from known
+            vendors.
+          </p>
+          <div className="flex items-center border border-gray-300 dark:border-gray-700 rounded-md p-2">
+            <div className="bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 w-8 h-8 flex items-center justify-center rounded-full">
+              <span className="material-icons">mail</span>
+            </div>
+            <input
+              type="email"
+              value="purchasing@contoso.com"
+              readOnly
+              className="ml-3 flex-grow text-gray-800 dark:text-gray-200 bg-transparent focus:outline-none"
+            />
+            <button className="text-gray-500 dark:text-gray-400 hover:text-red-600">
+              <span className="material-icons">close</span>
+            </button>
+          </div>
+          <button className="w-full mt-4 bg-blue-600 text-white dark:bg-blue-500 hover:bg-blue-700 dark:hover:bg-blue-600 py-2 rounded-md shadow-md transition-all">
+            Allow access
+          </button>
+        </div>
+
+        {/* Buttons */}
+        <div className="mt-8 flex justify-end space-x-4">
+          <button
+            onClick={onClose}
+            className="px-5 py-2 dark:text-gray-300 text-gray-900 bg-gray-600 rounded-lg hover:bg-gray-500 transition"
+          >
+            Close
+          </button>
+          <button className="px-5 py-2 bg-indigo-600 dark:text-white ro text-gray-900unded-lg hover:bg-indigo-500 transition">
+            Activate
+          </button>
+        </div>
+
+        {/* Close Icon */}
+        <button
+          onClick={onClose}
+          className="absolute top-8 right-4 dark:text-gray-300 text-gray-900 dark:hover:text-white"
+          aria-label="Close"
+        >
+          &#x2715;
+        </button>
+      </div>
+    </div>
+  );
+};
+
 const Dashboard = () => {
   const activities = [
     {

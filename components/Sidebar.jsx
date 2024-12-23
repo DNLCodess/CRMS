@@ -13,7 +13,7 @@ import {
   HiClipboardDocumentList,
 } from "react-icons/hi2";
 import { FaBars, FaCaretDown, FaHome, FaMoon, FaSun } from "react-icons/fa";
-import AgentSkill from "./AgentSkill";
+import { AgentSkill } from "./Dashboard";
 import { ThemeContext } from "../context/ThemeContext"; // Assuming ThemeContext is in ../context
 
 const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
